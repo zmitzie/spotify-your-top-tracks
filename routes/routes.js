@@ -21,6 +21,51 @@ router.get('/login', (req, res, next) => {
       redirect_uri: redirect_uri
     }));
 });
+
+router.get('/callback', (req, res, next) => {
+  const code = req.query.code || null;
+  if (code === null) {
+    res.redirect('/?' +
+    querystring.stringify({
+      error: 'Authorization not provided by user'
+    }));
+  } else {
+    const getTokenRequest = {
+      url: 'https://accounts.spotify.com/api/token',
+      form: {
+        code: code,
+        redirect_uri: redirect_uri,
+        grant_type: 'authorization_code'
+      },
+      headers: {
+        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+      },
+      json: true
+    };
+
+    request.post(getTokenRequest, function(error, response, body) {
+      if (!error && response.statusCode === 200) {
+        res.cookie('access_token', body.access_token);
+        res.cookie('refresh_token', body.refresh_token);
+
+        //console.log(req.cookies);
+        res.redirect('/?' +
+        querystring.stringify({
+          error: 'logged in'
+        }));
+        
+      } else {
+        res.render('index', {
+          path: 'index',
+          error: 'Didnt get auth token from Spotify',
+          formsCSS: true,
+          productCSS: true  
+        });
+      }
+    });
+  }
+});
+
 router.get('/', (req, res, next) => {
     
   console.log(req.query);
