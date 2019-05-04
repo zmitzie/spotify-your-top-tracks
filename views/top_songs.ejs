@@ -1,0 +1,32 @@
+<%- include('includes/head.ejs') %>
+<div class="container">
+  <h3 style="text-align:center">Your top songs in the last 6 months</h3>
+  <br>
+  <table class="table table-hover">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Artist</th>
+        <th scope="col">Album</th>
+        <th scope="col">Playback</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% tracks.items.forEach(function (value, i) { %>
+      <tr>
+        <th scope="row"><%= i + 1 %></th>
+        <td><a href="<%= value.external_urls.spotify %>" target="_blank"><%= value.name%></a></td>
+        <td><a href="<%= value.artists[0].external_urls.spotify %>" target="_blank"><%= value.artists[0].name%></a></td>
+        <td><a href="<%= value.album.external_urls.spotify %>" target="_blank"><%= value.album.name%></a></td>
+        <td>
+          <audio controls preload="none">
+            <source src="<%= value.preview_url %>" type="audio/mpeg">
+            Your browser does not support HTML5 audio
+          </audio></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('includes/end.ejs') %>
