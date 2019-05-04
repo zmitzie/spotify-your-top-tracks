@@ -30,6 +30,14 @@ router.get('/login', (req, res, next) => {
     }));
 });
 
+router.get('/logout', (req, res, next) => {
+  clearCookies(req, res);
+  res.redirect('/?' +
+    querystring.stringify({
+      success: 'You have been successfully logged out. You may also want to logout from https://accounts.spotify.com'
+    }));
+});
+
 router.get('/callback', (req, res, next) => {
   const code = req.query.code || null;
   if (code === null) {

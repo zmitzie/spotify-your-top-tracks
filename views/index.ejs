@@ -1,0 +1,22 @@
+<%- include('includes/head.ejs') %>
+<div class="container">
+  <% if (typeof success !== 'undefined' && success !== null) { %>
+  <div class="alert alert-success" role="alert">
+    <p><%= success %></p>
+  </div>
+  <% }%>
+  <% if (typeof error !== 'undefined' && error !== null) { %>
+  <div class="alert alert-danger" role="alert">
+    <p><%= error %></p>
+  </div>
+  <% }%>
+  <br>
+  <h3>See your most-listened to tracks/artists from Spotify</h3>
+  <p>A quick nodeJS app that implements the Spotify Personalization API. By logging in with your Spotify account
+    (through the Spotify Accounts Service), the app gets an access token for your account and displays the top 50
+    most-listened tracks or artists in the past 6 months. We don't store the access token in a database, instead it is
+    saved in the browser.</p>
+  <p>You can also listen to a quick 30 second preview of the track. If you use a Chromium-based browser (like Google
+    Chrome) you can easily download the 30s preview track and use it as a ringtone - but tell no one 🤫</p>
+</div>
+<%- include('includes/end.ejs') %>
